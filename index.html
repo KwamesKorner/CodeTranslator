@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Babl</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link href="prism.css" rel="stylesheet" />
+    <link href="style.css" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/78718e074a.js" crossorigin="anonymous"></script>
+  </head>
+  <body>
+    <h1>BABL</h1>
+    <form>
+      <label for="input-box">Insert Code Here:</label>
+      <br>
+      <textarea id="input-box" rows="10" cols="50"></textarea>
+      <br><br>
+      <button type="button" id="submit-button">Transpile</button>
+    </form>
+    <div id="error">
+        <i class="fas fa-exclamation-triangle fa-10x"></i><br/>
+        <label id="error-message"></label>
+    </div>
+    <img id="loading-gif" src="loading.gif">
+    <div id="output"></div>
+    <button id="copy-button">Copy</button>
+    <script src="prism.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>
