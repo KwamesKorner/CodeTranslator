@@ -15,7 +15,7 @@ $(document).ready(function() {
             url: "https://api.openai.com/v1/engines/text-davinci-003/completions",
             headers: {
               "Content-Type": "application/json",
-              "Authorization": "Bearer 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"
+              "Authorization": "Bearer " + process.env.API_KEY
             },
             data: JSON.stringify({
               prompt: "Is this valid code: " + inputValue,
