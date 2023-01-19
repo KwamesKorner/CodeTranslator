@@ -1,8 +1,9 @@
+const auth = "Bearer " + process.env.API_KEY
 $(document).ready(function() {
-    $("#loading-gif").hide()
-    $("#output").hide()
-    $("#copy-button").hide()
-    $("#error").hide()
+    // $("#loading-gif").hide()
+    // $("#output").hide()
+    // $("#copy-button").hide()
+    // $("#error").hide()
     $("#submit-button").click(function() {
       $("#loading-gif").show();
       $("#output").hide()
@@ -15,14 +16,18 @@ $(document).ready(function() {
             url: "https://api.openai.com/v1/engines/text-davinci-003/completions",
             headers: {
               "Content-Type": "application/json",
-              "Authorization": "Bearer " + process.env.API_KEY
+              "Authorization": auth
             },
             data: JSON.stringify({
-              prompt: "Is this valid code: " + inputValue,
-              max_tokens: 2036
+              prompt: "Can I execute this code as-is without error: " + inputValue,
+              max_tokens: 2036,
+              temperature: 0.7,
+              top_p: 1,
+              frequency_penalty: 0,
+              presence_penalty: 0
             }),
             success: function(response) {
-              if(response.choices[0].text.toUpperCase().includes("NO")){
+              if(!response.choices[0].text.toUpperCase().slice(0, 5).includes("\n\nYES")){
                 $("#loading-gif").hide();
                 $("#error-message").html("Not Valid Code. Please Try Again.")
                 $("#error").show()
@@ -32,7 +37,7 @@ $(document).ready(function() {
                         url: "https://api.openai.com/v1/engines/text-davinci-003/completions",
                         headers: {
                         "Content-Type": "application/json",
-                        "Authorization": "Bearer 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"
+                        "Authorization": auth
                         },
                         data: JSON.stringify({
                         prompt: "explain the following code as a comment in the language the code is written in: " + inputValue,
@@ -43,7 +48,7 @@ $(document).ready(function() {
                             var output = response.choices[0].text;
                             $("#output").html(output);
                             $("#output").show();
-                            $("#copy-button").show()
+                            $("#copy-button").css("display", "block")
                         },
                         error: function(jqXHR, textStatus, errorThrown) {
                             $("#loading-gif").hide();
