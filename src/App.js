@@ -5,8 +5,13 @@ import $ from 'jquery';
 import './App.css';
 import loadGif from './loading.gif';
 import Helmet from 'react-helmet'
+import ReactGA from 'react-ga'
+
+ReactGA.initialize('G-MRJNYMVTTC')
 
 function Babl() {
+  ReactGA.ga('set', 'page', window.location.pathname + window.location.search);
+  ReactGA.ga('send', 'pageview');
   const [input, setInput] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const [loading, setLoading] = useState(false);
@@ -17,6 +22,7 @@ function Babl() {
   const copyButtonRef = useRef(null);
 
   function Transpile() {
+    ReactGA.event({category: 'Button', action: 'Click', label: 'Trasnpile'})
     setLoading(true);
     setExplanationLoaded(false);
     setOutput('');

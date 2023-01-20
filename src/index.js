@@ -3,14 +3,11 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { analytics } from 'react-analytics'
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <analytics id="G-MRJNYMVTTC">
-      <App />
-    </analytics>
+    <App />
   </React.StrictMode>
 );
 
