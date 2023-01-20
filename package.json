@@ -19,7 +19,7 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "webpack-dev-server --port 8080",
     "build": "webpack",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
