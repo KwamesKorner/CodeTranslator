@@ -12,7 +12,7 @@ function Babl() {
   const [loading, setLoading] = useState(false);
   const [explanationLoaded, setExplanationLoaded] = useState(false)
   const [output, setOutput] = useState('');
-  const auth = "Bearer " + process.env.API_KEY;
+  const auth = "Bearer " + process.env.REACT_APP_API_KEY;
   const textAreaRef = useRef(null);
   const copyButtonRef = useRef(null);
 
