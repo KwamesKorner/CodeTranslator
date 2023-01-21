@@ -43,7 +43,7 @@ module.exports = {
       template: './public/index.html'
     }),
     new MiniCssExtractPlugin({
-      filename: 'styles.css'
+      filename: 'App.css'
     }),
     new webpack.ProvidePlugin({
         process: 'process/browser',
