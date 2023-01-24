@@ -42,19 +42,19 @@ module.exports = {
     new webpack.ProvidePlugin({
         process: 'process/browser',
     }),
-    // new WebpackPwaManifest({
-    //     filename: 'manifest.json',
-    //     name: 'My PWA',
-    //     short_name: 'My PWA',
-    //     description: 'My Progressive Web App',
-    //     background_color: '#ffffff',
-    //     theme_color: '#ffffff',
-    //     icons: [
-    //       {
-    //         src: path.resolve('public/apple-touch-icon.png'),
-    //         sizes: [128]
-    //       }
-    //     ]
-    //   })
+    new WebpackPwaManifest({
+        filename: 'manifest.json',
+        name: 'My PWA',
+        short_name: 'My PWA',
+        description: 'My Progressive Web App',
+        background_color: '#ffffff',
+        theme_color: '#ffffff',
+        icons: [
+          {
+            src: path.resolve('public/apple-touch-icon.png'),
+            sizes: [128]
+          }
+        ]
+      })
   ]
 }
