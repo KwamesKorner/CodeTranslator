@@ -67,6 +67,14 @@ button {
   font-size: 16px;
 }
 
+pre {
+  font-size:larger;
+}
+
+.link {
+  align-items: center;
+}
+
 button:hover {
   background-color: #3e8e41;
 }

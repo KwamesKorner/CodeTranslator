@@ -10,9 +10,9 @@ import ReactGA from 'react-ga4';
 
 ReactGA.initialize('G-MRJNYMVTTC');
 
-function Babl() {
+function Comp() {
 //   ReactGA.ga('set', 'page', window.location.pathname + window.location.search);
-  ReactGA.send({ hitType: "pageview", page: "/" });
+  ReactGA.send({ hitType: "pageview", page: "/comp" });
   const [input, setInput] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const [loading, setLoading] = useState(false);
@@ -23,7 +23,7 @@ function Babl() {
   const copyButtonRef = useRef(null);
 
   function Transpile() {
-    ReactGA.event({category: 'Button', action: 'Click', label: 'Trasnpile'})
+    ReactGA.event({category: 'Button', action: 'Click', label: 'Convert'})
     setLoading(true);
     setExplanationLoaded(false);
     setOutput('');
@@ -31,51 +31,30 @@ function Babl() {
 
     if (input.trim()) {
         $.ajax({
-        type: 'POST',
-        url: 'https://api.openai.com/v1/engines/text-davinci-003/completions',
-        headers: {
+            type: 'POST',
+            url: 'https://api.openai.com/v1/engines/code-davinci-002/completions',
+            headers: {
             'Content-Type': 'application/json',
             Authorization: auth,
-        },
-        data: JSON.stringify({
-            prompt: `Can I execute this code as-is without error: ${input}`,
-            max_tokens: 2036,
-            temperature: 0.7,
-            top_p: 1,
-            frequency_penalty: 0,
-            presence_penalty: 0,
-        }),
-        success: function (response) {
-            if (!response.choices[0].text.toUpperCase().slice(0, 5).includes('\n\nYES')) {
-            setLoading(false);
-            setErrorMessage('Not Valid Code. Please Try Again.');
-            } else {
-            $.ajax({
-                type: 'POST',
-                url: 'https://api.openai.com/v1/engines/text-davinci-003/completions',
-                headers: {
-                'Content-Type': 'application/json',
-                Authorization: auth,
-                },
-                data: JSON.stringify({
-                prompt: `explain the following code as a comment in the language the code is written in: ${input}`,
-                max_tokens: 2036,
-                }),
-                success: function(response) {
+            },
+            data: JSON.stringify({
+                prompt: `convert the following steps to Python code:\n ${input}`,
+                temperature: 0,
+                max_tokens: 256,
+                top_p: 1,
+                frequency_penalty: 0,
+                presence_penalty: 0,
+            }),
+            success: function(response) {
                 setLoading(false);
                 var output_exp = response.choices[0].text;
-                setOutput(output_exp);
+                setOutput(`<pre>${output_exp}</pre>`);
                 setExplanationLoaded(true);
             },
             error: function() {
                 setErrorMessage('Error Loading Explanation. Please Try Again.');
             }
-        });
-        }},
-        error: function() {
-            setLoading(false)
-            setErrorMessage('Error Loading Explanation. Please Try Again.');
-        }});  
+        }) 
     } 
     else {
         setLoading(false)
@@ -99,13 +78,13 @@ const handleCopy = async () => {
             <link href='https://fonts.googleapis.com/css?family=Quicksand' rel='stylesheet' />
         </Helmet>
       </HelmetProvider>
-      <h1>BABL</h1>
+      <h1>COMP</h1>
       <form>
-        <label htmlFor="input-box">Insert Code Here:</label>
+        <label htmlFor="input-box">Insert Instructions Here:</label>
         <br />
         <textarea id="input-box" rows={10} cols={50} value={input} onChange={(e) => setInput(e.target.value)} />
         <br /><br />
-        <button type="button" id="submit-button" onClick={Transpile}>Transpile</button>
+        <button type="button" id="submit-button" onClick={Transpile}>Convert</button>
       </form>
       <div id="error" style={{ display: errorMessage ? 'block' : 'none' }}>
         <FontAwesomeIcon icon={faExclamationTriangle} size="10x" color="#666"/>
@@ -115,11 +94,10 @@ const handleCopy = async () => {
       {loading && <img id="loading-gif" src={loadGif} alt="loading" />}
       { explanationLoaded && <div ref={textAreaRef} id="output" dangerouslySetInnerHTML={{ __html: output }}></div> }
       { explanationLoaded && <button ref={copyButtonRef} id="copy-button" onClick={handleCopy}>Copy</button> }
-      
       <form>
-        <Link to="/comp" className='link'>
+        <Link to="/" className='link'>
             <button>
-                    COMP
+                    BABL
             </button>
         </Link>
       </form>
@@ -127,4 +105,4 @@ const handleCopy = async () => {
   );
 }
 
-export default Babl;
+export default Comp;

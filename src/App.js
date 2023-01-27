@@ -1,9 +1,13 @@
-import Babl from './babl.js'
+import React from 'react';
+import { BrowserRouter } from 'react-router-dom';
+import Routing from './routes';
 
 function App() {
   return (
     <>
-      <Babl></Babl>
+      <BrowserRouter>
+        <Routing />
+      </BrowserRouter>
     </>
   );
 }
