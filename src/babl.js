@@ -18,9 +18,15 @@ function Babl() {
   const [loading, setLoading] = useState(false);
   const [explanationLoaded, setExplanationLoaded] = useState(false)
   const [output, setOutput] = useState('');
+  const [option, setOption] = useState("translate");
   const auth = "Bearer " + process.env.REACT_APP_API_KEY;
   const textAreaRef = useRef(null);
   const copyButtonRef = useRef(null);
+
+  function handleOptionChange(event){
+    setOption(event.target.value);
+    event.target.checked = !event.target.checked
+  }
 
   function Transpile() {
     ReactGA.event({category: 'Button', action: 'Click', label: 'Trasnpile'})
@@ -83,6 +89,46 @@ function Babl() {
     }
 }
 
+function Convert() {
+    ReactGA.event({category: 'Button', action: 'Click', label: 'Convert'})
+    setLoading(true);
+    setExplanationLoaded(false);
+    setOutput('');
+    setErrorMessage('');
+
+    if (input.trim()) {
+        $.ajax({
+            type: 'POST',
+            url: 'https://api.openai.com/v1/engines/code-davinci-002/completions',
+            headers: {
+            'Content-Type': 'application/json',
+            Authorization: auth,
+            },
+            data: JSON.stringify({
+                prompt: `"""\n ${input}\n"""`,
+                temperature: 0,
+                max_tokens: 1780,
+                top_p: 1,
+                frequency_penalty: 0,
+                presence_penalty: 0,
+            }),
+            success: function(response) {
+                setLoading(false);
+                var output_exp = response.choices[0].text;
+                setOutput(`<pre>${output_exp}</pre>`);
+                setExplanationLoaded(true);
+            },
+            error: function() {
+                setErrorMessage('Error Loading Explanation. Please Try Again.');
+            }
+        }) 
+    } 
+    else {
+        setLoading(false)
+        setErrorMessage('Please Enter Code Above.');
+    }
+}
+
 const handleCopy = async () => {
   try {
       await navigator.clipboard.writeText(textAreaRef.current.innerText);
@@ -103,9 +149,19 @@ const handleCopy = async () => {
       <form>
         <label htmlFor="input-box">Insert Code Here:</label>
         <br />
+        <div id="translate-convert-options">
+            <label for="translate-option">
+                <input type="radio" id="translate-option" name="translate-convert-options" value="translate" checked={option === 'translate'} onChange={(e) => handleOptionChange(e)}></input>
+                <span class="inline-radio-buttons">Translate</span>
+            </label>
+            <label for="convert-option">
+                <input type="radio" id="convert-option" name="translate-convert-options" value="convert" checked={option === 'convert'} onChange={(e) => handleOptionChange(e)}></input>
+                <span class="inline-radio-buttons">Convert</span>
+            </label>
+        </div>
         <textarea id="input-box" rows={10} cols={50} value={input} onChange={(e) => setInput(e.target.value)} />
         <br /><br />
-        <button type="button" id="submit-button" onClick={Transpile}>Transpile</button>
+        <button type="button" id="submit-button" onClick={option === 'translate' ? Transpile : Convert}>Enter</button>
       </form>
       <div id="error" style={{ display: errorMessage ? 'block' : 'none' }}>
         <FontAwesomeIcon icon={faExclamationTriangle} size="10x" color="#666"/>
@@ -116,13 +172,13 @@ const handleCopy = async () => {
       { explanationLoaded && <div ref={textAreaRef} id="output" dangerouslySetInnerHTML={{ __html: output }}></div> }
       { explanationLoaded && <button ref={copyButtonRef} id="copy-button" onClick={handleCopy}>Copy</button> }
       
-      <form>
+      {/* <form>
         <Link to="/comp" className='link'>
             <button>
                     COMP
             </button>
         </Link>
-      </form>
+      </form> */}
     </>
   );
 }

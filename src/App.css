@@ -93,3 +93,35 @@ button:hover {
   border-radius: 4px;
   box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.2);
 }
+
+/* Remove default radio button styles */
+input[type="radio"] {
+  display: none;
+}
+
+.inline-radio-buttons {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+/* Create the radio button indicator */
+.inline-radio-buttons:before {
+  content: "";
+  width: 16px;
+  height: 16px;
+  margin-right: 5px;
+  margin-left: 10px;
+  border-radius: 50%;
+  border: 2px solid #ccc;
+}
+
+/* Style the radio button indicator when it's selected */
+input[type="radio"]:checked + .inline-radio-buttons:before {
+  background-color: #666;
+  border-color: #666;
+}
+
+#translate-convert-options {
+  display: flex;
+}
