@@ -40,7 +40,7 @@ function Comp() {
             data: JSON.stringify({
                 prompt: `convert the following steps to Python code:\n ${input}`,
                 temperature: 0,
-                max_tokens: 512,
+                max_tokens: 256,
                 top_p: 1,
                 frequency_penalty: 0,
                 presence_penalty: 0,
