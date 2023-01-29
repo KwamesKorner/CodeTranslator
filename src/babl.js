@@ -105,7 +105,7 @@ function Convert() {
             Authorization: auth,
             },
             data: JSON.stringify({
-                prompt: `"""\n ${input}\n"""`,
+                prompt: `# Python 3\n"""\n ${input}\n"""`,
                 temperature: 0,
                 max_tokens: 1780,
                 top_p: 1,
@@ -147,7 +147,6 @@ const handleCopy = async () => {
       </HelmetProvider>
       <h1>BABL</h1>
       <form>
-        <label htmlFor="input-box">Insert Code Here:</label>
         <br />
         <div id="translate-convert-options">
             <label for="translate-option">
