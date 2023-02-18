@@ -1,13 +1,10 @@
 import React from 'react';
-import { BrowserRouter } from 'react-router-dom';
-import Routing from './routes';
+import Babl from './babl';
 
 function App() {
   return (
     <>
-      <BrowserRouter>
-        <Routing />
-      </BrowserRouter>
+      <Babl/>
     </>
   );
 }

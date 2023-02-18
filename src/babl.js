@@ -1,7 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Link } from "react-router-dom";
 import $ from 'jquery';
 import './App.css';
 import loadGif from './loading.gif';
@@ -170,14 +169,6 @@ const handleCopy = async () => {
       {loading && <img id="loading-gif" src={loadGif} alt="loading" />}
       { explanationLoaded && <div ref={textAreaRef} id="output" dangerouslySetInnerHTML={{ __html: output }}></div> }
       { explanationLoaded && <button ref={copyButtonRef} id="copy-button" onClick={handleCopy}>Copy</button> }
-      
-      {/* <form>
-        <Link to="/comp" className='link'>
-            <button>
-                    COMP
-            </button>
-        </Link>
-      </form> */}
     </>
   );
 }
